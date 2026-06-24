@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% set title='信息查询' %}{% block content %}
+<section class="panel"><form class="toolbar"><input name="keyword" value="{{ keyword }}" placeholder="输入姓名、电话、车牌、卡号、原因等关键词"><button class="btn primary">综合查询</button></form></section>
+{% if keyword %}
+<section class="panel"><h2>车主信息</h2><table><thead><tr><th>姓名</th><th>电话</th><th>住址</th><th>备注</th></tr></thead><tbody>{% for r in owners %}<tr><td>{{ r.owner_name }}</td><td>{{ r.phone }}</td><td>{{ r.address }}</td><td>{{ r.remark }}</td></tr>{% else %}<tr><td colspan="4" class="empty">无匹配车主</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel"><h2>车辆信息</h2><table><thead><tr><th>车牌</th><th>车主</th><th>卡号</th><th>状态</th><th>到期</th></tr></thead><tbody>{% for r in vehicles %}<tr><td>{{ r.plate_number }}</td><td>{{ r.owner_name }}</td><td>{{ r.card_uid }}</td><td>{{ '正常' if r.status==1 else '挂失' }}</td><td>{{ r.expire_date }}</td></tr>{% else %}<tr><td colspan="5" class="empty">无匹配车辆</td></tr>{% endfor %}</tbody></table></section>
+<section class="panel"><h2>出入信息</h2><table><thead><tr><th>时间</th><th>卡号</th><th>车牌</th><th>车主</th><th>结果</th><th>原因</th></tr></thead><tbody>{% for r in logs %}<tr><td>{{ r.access_time }}</td><td>{{ r.card_uid }}</td><td>{{ r.plate_number }}</td><td>{{ r.owner_name }}</td><td>{{ r.access_result }}</td><td>{{ r.reason }}</td></tr>{% else %}<tr><td colspan="6" class="empty">无匹配记录</td></tr>{% endfor %}</tbody></table></section>
+{% endif %}
+{% endblock %}

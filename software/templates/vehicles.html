@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% set title='车辆信息管理' %}{% block content %}
+<section class="panel">
+  <form class="toolbar"><input name="keyword" value="{{ keyword }}" placeholder="按车牌、卡号、车主查询"><button class="btn">查询</button><a class="btn primary" href="{{ url_for('vehicle_add') }}">添加车辆</a></form>
+  <table><thead><tr><th>编号</th><th>车牌</th><th>车主</th><th>RFID卡号</th><th>类型</th><th>状态</th><th>到期日期</th><th>操作</th></tr></thead><tbody>
+  {% for r in rows %}<tr><td>{{ r.vehicle_id }}</td><td>{{ r.plate_number }}</td><td>{{ r.owner_name }}</td><td>{{ r.card_uid }}</td><td>{{ r.vehicle_type }}</td><td>{% if r.status==0 %}<span class="tag denied">挂失</span>{% elif r.expire_date < today %}<span class="tag warn">过期</span>{% else %}<span class="tag approved">正常</span>{% endif %}</td><td>{{ r.expire_date }}</td><td class="actions"><a class="btn small" href="{{ url_for('vehicle_edit', id=r.vehicle_id) }}">编辑</a><form method="post" action="{{ url_for('vehicle_delete', id=r.vehicle_id) }}"><button class="btn small danger" data-confirm="确认删除该车辆？">删除</button></form></td></tr>{% else %}<tr><td colspan="8" class="empty">暂无车辆信息</td></tr>{% endfor %}
+  </tbody></table>
+</section>
+{% endblock %}

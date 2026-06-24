@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% set title='车辆信息表单' %}{% block content %}
+<section class="panel form-panel"><form method="post" class="form-grid">
+  <label>车牌号<input name="plate_number" required value="{{ row.plate_number if row else '' }}"></label>
+  <label>车主<select name="owner_id" required>{% for o in owners %}<option value="{{ o.owner_id }}" {% if row and row.owner_id==o.owner_id %}selected{% endif %}>{{ o.owner_name }}</option>{% endfor %}</select></label>
+  <label>RFID卡号<input name="card_uid" required value="{{ row.card_uid if row else '' }}" placeholder="如 F1CD2203"></label>
+  <label>车辆类型<input name="vehicle_type" value="{{ row.vehicle_type if row else '小型汽车' }}"></label>
+  <label>状态<select name="status"><option value="1" {% if not row or row.status==1 %}selected{% endif %}>正常</option><option value="0" {% if row and row.status==0 %}selected{% endif %}>挂失/禁用</option></select></label>
+  <label>到期日期<input type="date" name="expire_date" value="{{ row.expire_date if row else '2028-12-31' }}"></label>
+  <div class="full"><button class="btn primary">保存</button><a class="btn" href="{{ url_for('vehicles') }}">返回</a></div>
+</form></section>
+{% endblock %}

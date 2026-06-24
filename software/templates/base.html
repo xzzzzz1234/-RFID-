@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or '基于RFID的小区车辆管理系统' }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">RF</span>
+      <div>
+        <strong>RFID车辆管理</strong>
+        <small>Community Gate System</small>
+      </div>
+    </div>
+    <nav>
+      <a class="{{ 'active' if request.endpoint=='dashboard' else '' }}" href="{{ url_for('dashboard') }}"><span>01</span>系统首页</a>
+      <a class="{{ 'active' if request.endpoint in ['owners','owner_add','owner_edit'] else '' }}" href="{{ url_for('owners') }}"><span>02</span>车主信息管理</a>
+      <a class="{{ 'active' if request.endpoint in ['vehicles','vehicle_add','vehicle_edit'] else '' }}" href="{{ url_for('vehicles') }}"><span>03</span>车辆信息管理</a>
+      <a class="{{ 'active' if request.endpoint in ['access_logs','access_log_add','access_log_edit'] else '' }}" href="{{ url_for('access_logs') }}"><span>04</span>出入信息管理</a>
+      <a class="{{ 'active' if request.endpoint=='search' else '' }}" href="{{ url_for('search') }}"><span>05</span>信息查询</a>
+      <a class="{{ 'active' if request.endpoint=='password' else '' }}" href="{{ url_for('password') }}"><span>06</span>系统设置</a>
+    </nav>
+    <div class="side-card">
+      <b>IoT Link</b>
+      <p>ESP32、RFID、MQTT 与本地数据库联动运行</p>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">RFID COMMUNITY VEHICLE MANAGEMENT</p>
+        <h1>{{ title or '系统管理' }}</h1>
+        <p class="muted">MQTT状态：<span class="status-pill {{ 'ok' if mqtt_status.connected else 'bad' }}">{{ mqtt_status.message }}</span></p>
+      </div>
+      <div class="top-actions">
+        <span class="user-chip">管理员：{{ session.username }}</span>
+        <a class="btn ghost" href="{{ url_for('logout') }}">退出登录</a>
+      </div>
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="messages">
+        {% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

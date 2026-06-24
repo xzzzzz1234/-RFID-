@@ -1,0 +1,16 @@
+{% extends 'base.html' %}{% set title='系统首页' %}{% block content %}
+<section class="cards">
+  <div class="card"><b>{{ stats.owners }}</b><span>登记车主</span></div>
+  <div class="card"><b>{{ stats.vehicles }}</b><span>登记车辆</span></div>
+  <div class="card"><b>{{ stats.normal }}</b><span>正常车辆</span></div>
+  <div class="card"><b>{{ stats.revoked }}</b><span>挂失车辆</span></div>
+  <div class="card"><b>{{ stats.today }}</b><span>今日刷卡</span></div>
+  <div class="card"><b>{{ stats.denied }}</b><span>拒绝通行</span></div>
+</section>
+<section class="panel">
+  <div class="panel-title"><h2>最近出入记录</h2><a class="btn" href="{{ url_for('access_logs') }}">查看全部</a></div>
+  <table><thead><tr><th>时间</th><th>卡号</th><th>车牌</th><th>车主</th><th>结果</th><th>原因</th></tr></thead><tbody>
+  {% for r in logs %}<tr><td>{{ r.access_time }}</td><td>{{ r.card_uid }}</td><td>{{ r.plate_number }}</td><td>{{ r.owner_name }}</td><td><span class="tag {{ r.access_result|lower }}">{{ r.access_result }}</span></td><td>{{ r.reason }}</td></tr>{% else %}<tr><td colspan="6" class="empty">暂无出入记录，刷卡后会自动保存</td></tr>{% endfor %}
+  </tbody></table>
+</section>
+{% endblock %}

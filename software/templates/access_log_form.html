@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% set title='出入记录表单' %}{% block content %}
+<section class="panel form-panel"><form method="post" class="form-grid">
+  <label>RFID卡号<input name="card_uid" value="{{ row.card_uid if row else '' }}"></label>
+  <label>车牌号<input name="plate_number" value="{{ row.plate_number if row else '' }}"></label>
+  <label>车主姓名<input name="owner_name" value="{{ row.owner_name if row else '' }}"></label>
+  <label>出入类型<select name="access_type"><option {% if not row or row.access_type=='入口' %}selected{% endif %}>入口</option><option {% if row and row.access_type=='出口' %}selected{% endif %}>出口</option></select></label>
+  <label>通行结果<select name="access_result"><option value="APPROVED" {% if not row or row.access_result=='APPROVED' %}selected{% endif %}>APPROVED</option><option value="DENIED" {% if row and row.access_result=='DENIED' %}selected{% endif %}>DENIED</option></select></label>
+  <label>时间<input name="access_time" value="{{ row.access_time if row else now }}"></label>
+  <label class="full">原因<input name="reason" value="{{ row.reason if row else '' }}"></label>
+  <div class="full"><button class="btn primary">保存</button><a class="btn" href="{{ url_for('access_logs') }}">返回</a></div>
+</form></section>
+{% endblock %}

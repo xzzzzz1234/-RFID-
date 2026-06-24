@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% set title='车主信息表单' %}{% block content %}
+<section class="panel form-panel">
+  <form method="post" class="form-grid">
+    <label>车主姓名<input name="owner_name" required value="{{ row.owner_name if row else '' }}"></label>
+    <label>联系电话<input name="phone" value="{{ row.phone if row else '' }}"></label>
+    <label>住址<input name="address" value="{{ row.address if row else '' }}"></label>
+    <label class="full">备注<input name="remark" value="{{ row.remark if row else '' }}"></label>
+    <div class="full"><button class="btn primary">保存</button><a class="btn" href="{{ url_for('owners') }}">返回</a></div>
+  </form>
+</section>
+{% endblock %}

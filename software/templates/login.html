@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>登录 - 小区车辆管理系统</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+  <div class="login-bg-content">
+    <p class="login-kicker">COMMUNITY VEHICLE MANAGEMENT</p>
+    <h1>小区车辆管理系统</h1>
+    <p>面向小区车辆通行场景，提供车主信息、车辆信息、出入记录、综合查询和系统设置等管理功能。</p>
+    <div class="login-feature-grid">
+      <span>车主信息管理</span>
+      <span>车辆信息管理</span>
+      <span>出入记录查询</span>
+      <span>异常车辆拦截</span>
+    </div>
+  </div>
+  <form class="login-card centered" method="post">
+    <div class="login-logo">车</div>
+    <h2>管理员登录</h2>
+    <p>请输入账号密码进入系统</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}
+    {% endwith %}
+    <label>用户名</label><input name="username" required autofocus value="admin">
+    <label>密码</label><input name="password" type="password" required placeholder="默认密码：123456">
+    <button class="btn primary" type="submit">登录系统</button>
+  </form>
+</body>
+</html>

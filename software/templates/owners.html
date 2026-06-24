@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% set title='车主信息管理' %}{% block content %}
+<section class="panel">
+  <form class="toolbar"><input name="keyword" value="{{ keyword }}" placeholder="按姓名、电话、住址查询"><button class="btn">查询</button><a class="btn primary" href="{{ url_for('owner_add') }}">添加车主</a></form>
+  <table><thead><tr><th>编号</th><th>姓名</th><th>电话</th><th>住址</th><th>备注</th><th>操作</th></tr></thead><tbody>
+  {% for r in rows %}<tr><td>{{ r.owner_id }}</td><td>{{ r.owner_name }}</td><td>{{ r.phone }}</td><td>{{ r.address }}</td><td>{{ r.remark }}</td><td class="actions"><a class="btn small" href="{{ url_for('owner_edit', id=r.owner_id) }}">编辑</a><form method="post" action="{{ url_for('owner_delete', id=r.owner_id) }}"><button class="btn small danger" data-confirm="确认删除该车主？">删除</button></form></td></tr>{% else %}<tr><td colspan="6" class="empty">暂无车主信息</td></tr>{% endfor %}
+  </tbody></table>
+</section>
+{% endblock %}

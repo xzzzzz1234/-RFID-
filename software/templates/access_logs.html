@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% set title='出入信息管理' %}{% block content %}
+<section class="panel">
+  <form class="toolbar"><input name="keyword" value="{{ keyword }}" placeholder="卡号/车牌/车主/原因"><select name="result"><option value="">全部结果</option><option value="APPROVED" {% if result=='APPROVED' %}selected{% endif %}>允许</option><option value="DENIED" {% if result=='DENIED' %}selected{% endif %}>拒绝</option></select><input type="date" name="start_date" value="{{ start_date }}"><input type="date" name="end_date" value="{{ end_date }}"><button class="btn">查询</button><a class="btn primary" href="{{ url_for('access_log_add') }}">添加记录</a></form>
+  <table><thead><tr><th>编号</th><th>时间</th><th>卡号</th><th>车牌</th><th>车主</th><th>类型</th><th>结果</th><th>原因</th><th>操作</th></tr></thead><tbody>
+  {% for r in rows %}<tr><td>{{ r.log_id }}</td><td>{{ r.access_time }}</td><td>{{ r.card_uid }}</td><td>{{ r.plate_number }}</td><td>{{ r.owner_name }}</td><td>{{ r.access_type }}</td><td><span class="tag {{ r.access_result|lower }}">{{ r.access_result }}</span></td><td>{{ r.reason }}</td><td class="actions"><a class="btn small" href="{{ url_for('access_log_edit', id=r.log_id) }}">编辑</a><form method="post" action="{{ url_for('access_log_delete', id=r.log_id) }}"><button class="btn small danger" data-confirm="确认删除该记录？">删除</button></form></td></tr>{% else %}<tr><td colspan="9" class="empty">暂无出入记录</td></tr>{% endfor %}
+  </tbody></table>
+</section>
+{% endblock %}
